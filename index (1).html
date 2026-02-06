@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine Surprise 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#ff416c,#ff4b2b);
+  overflow:hidden;
+  color:white;
+}
+
+.card{
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(12px);
+  padding:30px;
+  border-radius:22px;
+  text-align:center;
+  width:90%;
+  max-width:360px;
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
+  position:relative;
+  z-index:2;
+}
+
+h1{margin:0 0 10px;font-size:26px}
+p{font-size:16px;margin-bottom:22px}
+
+.buttons{
+  position:relative;
+  height:160px;
+}
+
+button{
+  border:none;
+  border-radius:30px;
+  padding:14px;
+  font-size:16px;
+  cursor:pointer;
+  transition:transform .25s, box-shadow .25s;
+}
+
+button:hover{transform:scale(1.06)}
+
+.yes{
+  width:100%;
+  background:#00ff9d;
+  color:#000;
+  font-weight:600;
+  box-shadow:0 0 18px rgba(0,255,157,.8);
+}
+
+.no{
+  position:absolute;
+  background:#ff7aa2;
+  color:white;
+  padding:12px 22px;
+  box-shadow:0 0 10px rgba(0,0,0,.25);
+}
+
+.celebration{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,.45);
+  z-index:5;
+}
+
+.celebration h2{
+  background:white;
+  color:#ff2f6d;
+  padding:25px 35px;
+  border-radius:20px;
+  animation:pop .6s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(.5);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* hearts & balloons */
+.float{
+  position:fixed;
+  bottom:-60px;
+  animation:floatUp 3s linear forwards;
+  font-size:22px;
+}
+
+@keyframes floatUp{
+  to{
+    transform:translateY(-110vh);
+    opacity:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- romantic instrumental -->
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_1b0f2a8a63.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+  <h1>💝 Will You Be My Valentine?</h1>
+  <p>This little page was made just for you 🤍</p>
+
+  <div class="buttons">
+    <button class="yes" onclick="yesClicked()">Yes 💖</button>
+    <button class="no" id="noBtn">No 🙂</button>
+  </div>
+</div>
+
+<!-- YES special moment -->
+<div class="celebration" id="celebration">
+  <h2>🎉 She said YES 💖</h2>
+</div>
+
+<script>
+const noBtn=document.getElementById("noBtn");
+const music=document.getElementById("music");
+
+/* try autoplay */
+window.addEventListener("load",()=>{
+  music.volume=0.4;
+  music.play().catch(()=>{});
+});
+
+/* smooth moving NO button every 1 second */
+setInterval(()=>{
+  const box=noBtn.parentElement.getBoundingClientRect();
+  const maxX=box.width-90;
+  const maxY=box.height-40;
+
+  noBtn.style.left=Math.random()*maxX+"px";
+  noBtn.style.top=Math.random()*maxY+"px";
+},1000);
+
+/* YES clicked */
+function yesClicked(){
+  showCelebration();
+  sendHearts();
+  setTimeout(()=>{
+    window.open(
+      "https://ig.me/m/abhijith_m_pillai_?text=I%20said%20YES%20%F0%9F%92%96%F0%9F%8E%89",
+      "_blank"
+    );
+  },1200);
+}
+
+/* NO clicked */
+noBtn.onclick=()=>{
+  window.open(
+    "https://ig.me/m/abhijith_m_pillai_?text=I%27m%20sorry%2C%20NO%20%F0%9F%98%8C",
+    "_blank"
+  );
+};
+
+function showCelebration(){
+  const c=document.getElementById("celebration");
+  c.style.display="flex";
+  setTimeout(()=>c.style.display="none",3000);
+}
+
+function sendHearts(){
+  const icons=["💖","💘","🎈","❤️","💝"];
+  for(let i=0;i<20;i++){
+    const el=document.createElement("div");
+    el.className="float";
+    el.innerText=icons[Math.floor(Math.random()*icons.length)];
+    el.style.left=Math.random()*100+"vw";
+    el.style.fontSize=(20+Math.random()*20)+"px";
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),3000);
+  }
+}
+</script>
+
+</body>
+</html>
